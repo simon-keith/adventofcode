@@ -1,8 +1,18 @@
-from itertools import pairwise
-from typing import Generator, Iterable, List
+import collections
+from itertools import islice, pairwise
+from typing import Generator, Iterable, List, Tuple
 
 from adventofcode.utils.input import read_puzzle_input
-from adventofcode.utils.iterable import sliding_window
+
+
+def sliding_window(iterable: Iterable, n: int) -> Generator[Tuple, None, None]:
+    it = iter(iterable)
+    window = collections.deque(islice(it, n), maxlen=n)
+    if len(window) == n:
+        yield tuple(window)
+    for x in it:
+        window.append(x)
+        yield tuple(window)
 
 
 def _parse(puzzle_input: List[str]) -> Generator[int, None, None]:
