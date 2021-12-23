@@ -1,10 +1,14 @@
 from importlib import resources
 from typing import Generator, List, Tuple
 
+from adventofcode.utils.skeleton import format_module, format_solution
+
 
 def _get_package_and_resource(year: int, day: int) -> Tuple[str, str]:
-    package = f"adventofcode.aoc{year:d}.data"
-    resource = f"day{day:02d}.txt"
+    module = format_module(year)
+    solution = format_solution(day)
+    package = f"adventofcode.{module}.data"
+    resource = f"{solution}.txt"
     return package, resource
 
 
