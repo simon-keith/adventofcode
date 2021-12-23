@@ -1,4 +1,4 @@
-from itertools import islice, compress
+from itertools import islice
 from typing import List, Optional, Tuple
 
 from adventofcode.utils.input import read_puzzle_input

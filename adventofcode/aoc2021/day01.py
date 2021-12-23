@@ -1,11 +1,14 @@
 import collections
 from itertools import islice, pairwise
-from typing import Generator, Iterable, List, Tuple
+from typing import Any, Generator, Iterable, List, Tuple
 
 from adventofcode.utils.input import read_puzzle_input
 
 
-def sliding_window(iterable: Iterable, n: int) -> Generator[Tuple, None, None]:
+def sliding_window(
+    iterable: Iterable[Any],
+    n: int,
+) -> Generator[Tuple[Any], None, None]:
     it = iter(iterable)
     window = collections.deque(islice(it, n), maxlen=n)
     if len(window) == n:
