@@ -1,35 +1,73 @@
 from collections import deque
-from typing import List, Optional
+from typing import Generator, List, Optional, Deque, Tuple
+from statistics import median_high
 
 from adventofcode.utils.input import read_puzzle_input
 
-_CHUNK_MAP = {")": "(", "]": "[", "}": "{", ">": "<"}
+_OPENING_MAP = {")": "(", "]": "[", "}": "{", ">": "<"}
+_CLOSING_MAP = {v: k for k, v in _OPENING_MAP.items()}
 _SYNTAX_ERROR_SCORES = {")": 3, "]": 57, "}": 1197, ">": 25137}
+_AUTOCOMPLETE_SCORES = {")": 1, "]": 2, "}": 3, ">": 4}
 
 
-def _find_illegal(line: str) -> Optional[str]:
+class CorruptedLineError(ValueError):
+    def __init__(self, *args: object, symbol: str) -> None:
+        super().__init__(*args)
+        self.symbol = symbol
+
+
+def _check(line: str) -> Deque[str]:
     stack = deque()
-    for char in line:
+    for symbol in line:
         try:
-            expected = _CHUNK_MAP[char]
+            expected_opening_symbol = _OPENING_MAP[symbol]
         except KeyError:
-            stack.append(char)
+            # not a closing symbol
+            stack.append(symbol)
         else:
-            if stack.pop() != expected:
-                return char
+            actual_opening_symbol = stack.pop()
+            if actual_opening_symbol != expected_opening_symbol:
+                raise CorruptedLineError("invalid symbol", symbol=symbol)
+    return stack
+
+
+def _complete(stack: Deque[str]) -> Generator[str, None, None]:
+    while len(stack) > 0:
+        opening_symbol = stack.pop()
+        closing_symbol = _CLOSING_MAP[opening_symbol]
+        yield closing_symbol
+
+
+def _score_autocomplete(line: str) -> Optional[int]:
+    try:
+        stack = _check(line)
+    except CorruptedLineError:
+        return
+    score = 0
+    for closing_symbol in _complete(stack):
+        score *= 5
+        score += _AUTOCOMPLETE_SCORES[closing_symbol]
+    return score
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
     score = 0
     for line in puzzle_input:
-        illegal = _find_illegal(line)
-        if illegal:
-            score += _SYNTAX_ERROR_SCORES[illegal]
+        try:
+            _check(line)
+        except CorruptedLineError as e:
+            score += _SYNTAX_ERROR_SCORES[e.symbol]
     return score
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    pass
+    scores = list(
+        filter(
+            lambda x: x is not None,
+            list(_score_autocomplete(line) for line in puzzle_input),
+        )
+    )
+    return median_high(scores)
 
 
 if __name__ == "__main__":
