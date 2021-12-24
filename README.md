@@ -10,6 +10,12 @@ poetry install
 ```
 
 ## Usage
+Generate the skeleton for a puzzle:
+```bash
+poetry run python -m adventofcode.utils.skeleton 2021 1
+```
+
+Run a puzzle:
 ```bash
 poetry run python -m adventofcode.aoc2021.day01
 ```

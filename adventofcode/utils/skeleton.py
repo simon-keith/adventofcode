@@ -1,3 +1,4 @@
+import argparse
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Tuple
@@ -85,3 +86,22 @@ def write_files(year: int, day: int) -> Tuple[Path, Path]:
     with open(test_path, "w") as f:
         f.write(test_code)
     return solution_path, test_path
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate the skeleton for the given year and day.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "year",
+        type=int,
+        help="Advent of Code puzzle year",
+    )
+    parser.add_argument(
+        "day",
+        type=int,
+        help="Advent of Code puzzle day",
+    )
+    args = parser.parse_args()
+    write_files(year=args.year, day=args.day)
