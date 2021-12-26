@@ -1,5 +1,5 @@
 from itertools import chain
-from typing import Callable, Dict, Iterable, List, Tuple, TypeVar
+from typing import Callable, Dict, Generator, List, Tuple, TypeVar
 
 T = TypeVar("T")
 
@@ -30,12 +30,11 @@ _ADJ_DIAG = (
 
 
 def iter_adjacent_coordinates(
-    i: int,
-    j: int,
+    coordinates: Tuple[int, int],
     diagonal: bool = True,
-) -> Iterable[Tuple[int, int]]:
+) -> Generator[Tuple[int, int], None, None]:
     if diagonal:
         offsets = chain(_ADJ_ORTH, _ADJ_DIAG)
     else:
         offsets = _ADJ_ORTH
-    return ((i + di, j + dj) for di, dj in offsets)
+    return ((coordinates[0] + o[0], coordinates[1] + o[1]) for o in offsets)

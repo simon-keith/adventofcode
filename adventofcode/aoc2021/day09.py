@@ -2,7 +2,7 @@ import math
 from collections import deque
 from typing import Dict, Generator, List, Tuple
 
-from adventofcode.utils.helpers import gridify, iter_adjacent_coordinates
+from adventofcode.utils.helpers.grid import gridify, iter_adjacent_coordinates
 from adventofcode.utils.input import read_puzzle_input
 
 
@@ -12,24 +12,21 @@ def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
 
 def _is_lower_than_adjacent(
     grid: Dict[Tuple[int, int], int],
-    i: int,
-    j: int,
+    coordinates: Tuple[int, int],
 ) -> Tuple[int, bool]:
-    height = grid[(i, j)]
+    height = grid[coordinates]
     adjacent = (
         grid.get(coords, float("inf"))
-        for coords in iter_adjacent_coordinates(i, j, False)
+        for coords in iter_adjacent_coordinates(coordinates, False)
     )
     return height, all(height < a for a in adjacent)
 
 
-def _find_minima(
-    grid: Dict[Tuple[int, int], int]
-) -> Generator[Tuple[int, int, int], None, None]:
-    for i, j in grid:
-        height, lower = _is_lower_than_adjacent(grid, i, j)
+def _find_minima(grid: Dict[Tuple[int, int], int]) -> Generator[int, None, None]:
+    for coords in grid:
+        height, lower = _is_lower_than_adjacent(grid, coords)
         if lower:
-            yield i, j, height
+            yield height
 
 
 def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
@@ -47,7 +44,7 @@ def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
                 if coords not in visited:
                     visited.add(coords)
                     size += 1
-                    for coords in iter_adjacent_coordinates(*coords, False):
+                    for coords in iter_adjacent_coordinates(coords, False):
                         if grid.get(coords, 9) != 9:
                             fifo.append(coords)
             basin_sizes.append(size)
@@ -57,7 +54,7 @@ def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
 def solve_part1(puzzle_input: List[str]) -> int:
     grid = _parse(puzzle_input)
     risk_level = 0
-    for _, _, value in _find_minima(grid):
+    for value in _find_minima(grid):
         risk_level += value + 1
     return risk_level
 

@@ -1,6 +1,6 @@
-from typing import Dict, Iterable, List, Set, Tuple
+from typing import Dict, List, Set, Tuple
 
-from adventofcode.utils.helpers import gridify, iter_adjacent_coordinates
+from adventofcode.utils.helpers.grid import gridify, iter_adjacent_coordinates
 from adventofcode.utils.input import read_puzzle_input
 
 
@@ -29,7 +29,7 @@ def _update(grid: Dict[Tuple[int, int], int]) -> int:
         grid[coords] = 0
         for adj in filter(
             lambda x: grid.get(x, 0) > 0,
-            iter_adjacent_coordinates(*coords),
+            iter_adjacent_coordinates(coords),
         ):
             _increment(grid, adj, flashing)
     return flash_count
