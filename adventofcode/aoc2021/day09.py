@@ -1,20 +1,13 @@
 import math
 from collections import deque
-from typing import Dict, Generator, Iterable, List, Tuple
+from typing import Dict, Generator, List, Tuple
 
+from adventofcode.utils.helpers import gridify, iter_adjacent_coordinates
 from adventofcode.utils.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
-    grid = {}
-    for i, row in enumerate(puzzle_input):
-        for j, c in enumerate(row):
-            grid[(i, j)] = int(c)
-    return grid
-
-
-def _get_adjacent(i: int, j: int) -> Iterable[Tuple[int, int]]:
-    return ((i + di, j + dj) for di, dj in ((0, 1), (0, -1), (1, 0), (-1, 0)))
+    return gridify(puzzle_input, int)
 
 
 def _is_lower_than_adjacent(
@@ -23,7 +16,10 @@ def _is_lower_than_adjacent(
     j: int,
 ) -> Tuple[int, bool]:
     height = grid[(i, j)]
-    adjacent = (grid.get(coords, float("inf")) for coords in _get_adjacent(i, j))
+    adjacent = (
+        grid.get(coords, float("inf"))
+        for coords in iter_adjacent_coordinates(i, j, False)
+    )
     return height, all(height < a for a in adjacent)
 
 
@@ -51,7 +47,7 @@ def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
                 if coords not in visited:
                     visited.add(coords)
                     size += 1
-                    for coords in _get_adjacent(*coords):
+                    for coords in iter_adjacent_coordinates(*coords, False):
                         if grid.get(coords, 9) != 9:
                             fifo.append(coords)
             basin_sizes.append(size)

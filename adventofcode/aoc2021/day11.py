@@ -1,30 +1,11 @@
 from typing import Dict, Iterable, List, Set, Tuple
 
+from adventofcode.utils.helpers import gridify, iter_adjacent_coordinates
 from adventofcode.utils.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
-    grid = {}
-    for i, row in enumerate(puzzle_input):
-        for j, c in enumerate(row):
-            grid[(i, j)] = int(c)
-    return grid
-
-
-def _get_adjacent(i: int, j: int) -> Iterable[Tuple[int, int]]:
-    return (
-        (i + di, j + dj)
-        for di, dj in (
-            (-1, -1),
-            (-1, 0),
-            (-1, 1),
-            (0, -1),
-            (0, 1),
-            (1, -1),
-            (1, 0),
-            (1, 1),
-        )
-    )
+    return gridify(puzzle_input, int)
 
 
 def _increment(
@@ -46,7 +27,10 @@ def _update(grid: Dict[Tuple[int, int], int]) -> int:
         coords = flashing.pop()
         flash_count += 1
         grid[coords] = 0
-        for adj in filter(lambda x: grid.get(x, 0) > 0, _get_adjacent(*coords)):
+        for adj in filter(
+            lambda x: grid.get(x, 0) > 0,
+            iter_adjacent_coordinates(*coords),
+        ):
             _increment(grid, adj, flashing)
     return flash_count
 
