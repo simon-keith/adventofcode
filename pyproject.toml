@@ -13,6 +13,7 @@ flake8 = "^4.0.1"
 black = "^21.12b0"
 isort = "^5.10.1"
 ipython = "^7.30.1"
+snakeviz = "^2.1.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
