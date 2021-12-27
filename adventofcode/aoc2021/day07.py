@@ -2,7 +2,7 @@ import math
 from statistics import mean, median_high
 from typing import List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Tuple[int, ...]:

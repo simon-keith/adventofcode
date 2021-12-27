@@ -1,7 +1,7 @@
 from typing import Dict, List, Set, Tuple
 
-from adventofcode.utils.helpers.grid import gridify, iter_adjacent_coordinates
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.library.grid import gridify, iter_adjacent_coordinates
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:

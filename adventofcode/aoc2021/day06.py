@@ -1,7 +1,7 @@
 from collections import deque
 from typing import Deque, List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 _CYCLE_LENGTH = 7
 _NEW_TIMER_VALUE = 8

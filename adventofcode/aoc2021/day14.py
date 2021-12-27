@@ -1,8 +1,8 @@
-from typing import DefaultDict, Dict, List, Tuple
-from itertools import dropwhile, pairwise
 from collections import defaultdict
+from itertools import dropwhile, pairwise
+from typing import DefaultDict, Dict, List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Tuple[str, Dict[str, Tuple[str, str]]]:

@@ -2,7 +2,7 @@ from collections import deque
 from itertools import takewhile
 from typing import Generator, Iterable, List, Set, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 _DIM_TO_INDEX = {"x": 1, "y": 0}
 

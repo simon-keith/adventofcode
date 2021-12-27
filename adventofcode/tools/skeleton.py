@@ -1,11 +1,12 @@
-import argparse
 from importlib.util import find_spec
 from pathlib import Path
 from typing import Tuple
 
+PACKAGE = "adventofcode"
+
 _SOLUTION = """from typing import List
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
@@ -66,7 +67,7 @@ def write_files(year: int, day: int) -> Tuple[Path, Path]:
     module = format_module(year)
 
     # get solution path
-    solution_module_name = f"adventofcode.{module}"
+    solution_module_name = f"{PACKAGE}.{module}"
     solution_module_spec = find_spec(solution_module_name)
     solution_module_path = Path(solution_module_spec.origin).parent
     solution = format_solution(day)
@@ -86,22 +87,3 @@ def write_files(year: int, day: int) -> Tuple[Path, Path]:
     with open(test_path, "w") as f:
         f.write(test_code)
     return solution_path, test_path
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Generate the skeleton for the given year and day.",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        "year",
-        type=int,
-        help="Advent of Code puzzle year",
-    )
-    parser.add_argument(
-        "day",
-        type=int,
-        help="Advent of Code puzzle day",
-    )
-    args = parser.parse_args()
-    write_files(year=args.year, day=args.day)

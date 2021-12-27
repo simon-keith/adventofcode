@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Dict, List, Set
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Dict[str, Set[str]]:

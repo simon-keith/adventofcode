@@ -1,6 +1,6 @@
 from typing import FrozenSet, Generator, Iterable, List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(

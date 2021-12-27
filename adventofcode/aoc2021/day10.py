@@ -1,8 +1,8 @@
 from collections import deque
-from typing import Generator, List, Optional, Deque, Tuple
 from statistics import median_high
+from typing import Deque, Generator, List, Optional, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 _OPENING_MAP = {")": "(", "]": "[", "}": "{", ">": "<"}
 _CLOSING_MAP = {v: k for k, v in _OPENING_MAP.items()}

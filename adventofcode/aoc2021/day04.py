@@ -1,7 +1,7 @@
 from itertools import islice
 from typing import List, Optional, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 class _Grid:

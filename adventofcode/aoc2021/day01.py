@@ -2,7 +2,7 @@ import collections
 from itertools import islice, pairwise
 from typing import Any, Generator, Iterable, List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def sliding_window(

@@ -2,7 +2,7 @@ from collections import defaultdict
 from itertools import chain
 from typing import Generator, List, Tuple
 
-from adventofcode.utils.input import read_puzzle_input
+from adventofcode.tools.input import read_puzzle_input
 
 
 def _parse(puzzle_input: List[str]) -> Generator[Tuple[int, int, int, int], None, None]:
