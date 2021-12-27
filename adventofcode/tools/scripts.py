@@ -50,4 +50,5 @@ def timeit():
         t1, t2 = run.timeit(year=args.year, day=args.day)
     except ModuleNotFoundError:
         return
-    print(f"{args.year:d}\t{args.day:02d}\t{t1:.6f}\t{t2:.6f}")
+    tsum = t1 + t2
+    print(f"{args.year:d}\t{args.day:02d}\t{t1:.6f}\t{t2:.6f}\t{tsum:.6f}")
