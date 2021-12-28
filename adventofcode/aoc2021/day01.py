@@ -1,27 +1,26 @@
-import collections
-from itertools import islice, pairwise
-from typing import Any, Generator, Iterable, List, Tuple
+from itertools import pairwise
+from typing import Generator, Iterable, List
 
 from adventofcode.library.iter import iter_sliding_windows
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Generator[int, None, None]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Generator[int, None, None]:
     return (int(line) for line in puzzle_input)
 
 
-def _count_positive_diffs(iterable: Iterable[int]) -> int:
+def count_positive_diffs(iterable: Iterable[int]) -> int:
     return sum(current > previous for previous, current in pairwise(iterable))
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    iterable = _parse(puzzle_input)
-    return _count_positive_diffs(iterable)
+    iterable = parse_puzzle_input(puzzle_input)
+    return count_positive_diffs(iterable)
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    iterable = (sum(w) for w in iter_sliding_windows(_parse(puzzle_input), 3))
-    return _count_positive_diffs(iterable)
+    it = (sum(w) for w in iter_sliding_windows(parse_puzzle_input(puzzle_input), 3))
+    return count_positive_diffs(it)
 
 
 if __name__ == "__main__":

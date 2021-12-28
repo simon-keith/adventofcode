@@ -6,11 +6,11 @@ from adventofcode.library.grid import gridify, iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
     return gridify(puzzle_input, int)
 
 
-def _minimize_risk(
+def minimize_risk(
     grid: Dict[Tuple[int, int], int],
     start: Tuple[int, int],
     target: Tuple[int, int],
@@ -28,7 +28,7 @@ def _minimize_risk(
     raise ValueError("did not reach the target")
 
 
-def _extend_grid(
+def extend_grid(
     grid: Dict[Tuple[int, int], int],
     down: int,
     right: int,
@@ -43,15 +43,15 @@ def _extend_grid(
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    grid = _parse(puzzle_input)
+    grid = parse_puzzle_input(puzzle_input)
     start, target = (0, 0), max(grid)
-    return _minimize_risk(grid, start, target)
+    return minimize_risk(grid, start, target)
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    grid = _extend_grid(_parse(puzzle_input), 5, 5)
+    grid = extend_grid(parse_puzzle_input(puzzle_input), 5, 5)
     start, target = (0, 0), max(grid)
-    return _minimize_risk(grid, start, target)
+    return minimize_risk(grid, start, target)
 
 
 if __name__ == "__main__":

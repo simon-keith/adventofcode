@@ -1,13 +1,13 @@
 from collections import deque
 from statistics import median_high
-from typing import Deque, Generator, List, Optional, Tuple
+from typing import Deque, Generator, List, Optional
 
 from adventofcode.tools.input import read_puzzle_input
 
-_OPENING_MAP = {")": "(", "]": "[", "}": "{", ">": "<"}
-_CLOSING_MAP = {v: k for k, v in _OPENING_MAP.items()}
-_SYNTAX_ERROR_SCORES = {")": 3, "]": 57, "}": 1197, ">": 25137}
-_AUTOCOMPLETE_SCORES = {")": 1, "]": 2, "}": 3, ">": 4}
+OPENING_MAP = {")": "(", "]": "[", "}": "{", ">": "<"}
+CLOSING_MAP = {v: k for k, v in OPENING_MAP.items()}
+SYNTAX_ERROR_SCORES = {")": 3, "]": 57, "}": 1197, ">": 25137}
+AUTOCOMPLETE_SCORES = {")": 1, "]": 2, "}": 3, ">": 4}
 
 
 class CorruptedLineError(ValueError):
@@ -16,11 +16,11 @@ class CorruptedLineError(ValueError):
         self.symbol = symbol
 
 
-def _check(line: str) -> Deque[str]:
+def check(line: str) -> Deque[str]:
     stack = deque()
     for symbol in line:
         try:
-            expected_opening_symbol = _OPENING_MAP[symbol]
+            expected_opening_symbol = OPENING_MAP[symbol]
         except KeyError:
             # not a closing symbol
             stack.append(symbol)
@@ -31,22 +31,22 @@ def _check(line: str) -> Deque[str]:
     return stack
 
 
-def _complete(stack: Deque[str]) -> Generator[str, None, None]:
+def complete(stack: Deque[str]) -> Generator[str, None, None]:
     while len(stack) > 0:
         opening_symbol = stack.pop()
-        closing_symbol = _CLOSING_MAP[opening_symbol]
+        closing_symbol = CLOSING_MAP[opening_symbol]
         yield closing_symbol
 
 
-def _score_autocomplete(line: str) -> Optional[int]:
+def score_autocomplete(line: str) -> Optional[int]:
     try:
-        stack = _check(line)
+        stack = check(line)
     except CorruptedLineError:
         return
     score = 0
-    for closing_symbol in _complete(stack):
+    for closing_symbol in complete(stack):
         score *= 5
-        score += _AUTOCOMPLETE_SCORES[closing_symbol]
+        score += AUTOCOMPLETE_SCORES[closing_symbol]
     return score
 
 
@@ -54,9 +54,9 @@ def solve_part1(puzzle_input: List[str]) -> int:
     score = 0
     for line in puzzle_input:
         try:
-            _check(line)
+            check(line)
         except CorruptedLineError as e:
-            score += _SYNTAX_ERROR_SCORES[e.symbol]
+            score += SYNTAX_ERROR_SCORES[e.symbol]
     return score
 
 
@@ -64,7 +64,7 @@ def solve_part2(puzzle_input: List[str]) -> int:
     scores = list(
         filter(
             lambda x: x is not None,
-            list(_score_autocomplete(line) for line in puzzle_input),
+            list(score_autocomplete(line) for line in puzzle_input),
         )
     )
     return median_high(scores)

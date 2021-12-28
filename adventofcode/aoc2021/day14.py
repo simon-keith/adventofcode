@@ -5,7 +5,9 @@ from typing import DefaultDict, Dict, List, Tuple
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Tuple[str, Dict[str, Tuple[str, str]]]:
+def parse_puzzle_input(
+    puzzle_input: List[str],
+) -> Tuple[str, Dict[str, Tuple[str, str]]]:
     it = iter(puzzle_input)
     polymer = next(it)
     rules = {}
@@ -15,14 +17,14 @@ def _parse(puzzle_input: List[str]) -> Tuple[str, Dict[str, Tuple[str, str]]]:
     return polymer, rules
 
 
-def _get_polymer_pairs(polymer: str) -> DefaultDict[str, int]:
+def get_polymer_pairs(polymer: str) -> DefaultDict[str, int]:
     pairs = defaultdict(int)
     for p in pairwise(polymer):
         pairs["".join(p)] += 1
     return pairs
 
 
-def _grow_polymer_pairs(
+def grow_polymer_pairs(
     pairs: DefaultDict[str, int],
     rules: Dict[str, Tuple[str, str]],
     iterations: int,
@@ -36,7 +38,7 @@ def _grow_polymer_pairs(
     return pairs
 
 
-def _get_polymer_elements_counter(
+def get_polymer_elements_counter(
     polymer: str,
     pairs: DefaultDict[str, int],
 ) -> List[Tuple[str, int]]:
@@ -47,20 +49,20 @@ def _get_polymer_elements_counter(
     return tuple(sorted(counter.items(), key=lambda x: -x[1]))
 
 
-def _solve(puzzle_input: List[str], iterations: int) -> int:
-    polymer, rules = _parse(puzzle_input)
-    pairs = _get_polymer_pairs(polymer)
-    new_pairs = _grow_polymer_pairs(pairs, rules, iterations)
-    counter = _get_polymer_elements_counter(polymer, new_pairs)
+def solve(puzzle_input: List[str], iterations: int) -> int:
+    polymer, rules = parse_puzzle_input(puzzle_input)
+    pairs = get_polymer_pairs(polymer)
+    new_pairs = grow_polymer_pairs(pairs, rules, iterations)
+    counter = get_polymer_elements_counter(polymer, new_pairs)
     return counter[0][1] - counter[-1][1]
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    return _solve(puzzle_input, 10)
+    return solve(puzzle_input, 10)
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    return _solve(puzzle_input, 40)
+    return solve(puzzle_input, 40)
 
 
 if __name__ == "__main__":

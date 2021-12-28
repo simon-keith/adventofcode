@@ -6,11 +6,11 @@ from adventofcode.library.grid import gridify, iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
     return gridify(puzzle_input, int)
 
 
-def _is_lower_than_adjacent(
+def is_lower_than_adjacent(
     grid: Dict[Tuple[int, int], int],
     coordinates: Tuple[int, int],
 ) -> Tuple[int, bool]:
@@ -22,14 +22,14 @@ def _is_lower_than_adjacent(
     return height, all(height < a for a in adjacent)
 
 
-def _find_minima(grid: Dict[Tuple[int, int], int]) -> Generator[int, None, None]:
+def find_minima(grid: Dict[Tuple[int, int], int]) -> Generator[int, None, None]:
     for coords in grid:
-        height, lower = _is_lower_than_adjacent(grid, coords)
+        height, lower = is_lower_than_adjacent(grid, coords)
         if lower:
             yield height
 
 
-def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
+def find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
     # the assumption is that all basins are delimited by 9s or by the border of the grid
     visited = set()
     basin_sizes = []
@@ -52,16 +52,16 @@ def _find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    grid = _parse(puzzle_input)
+    grid = parse_puzzle_input(puzzle_input)
     risk_level = 0
-    for value in _find_minima(grid):
+    for value in find_minima(grid):
         risk_level += value + 1
     return risk_level
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    grid = _parse(puzzle_input)
-    basins = _find_basin_sizes(grid)
+    grid = parse_puzzle_input(puzzle_input)
+    basins = find_basin_sizes(grid)
     basins.sort()
     if len(basins) < 3:
         raise ValueError("less than 3 basins")

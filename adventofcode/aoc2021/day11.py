@@ -4,11 +4,11 @@ from adventofcode.library.grid import gridify, iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
     return gridify(puzzle_input, int)
 
 
-def _increment(
+def increment(
     grid: Dict[Tuple[int, int], int],
     coords: Tuple[int, int],
     flashing: Set[int],
@@ -18,10 +18,10 @@ def _increment(
         flashing.add(coords)
 
 
-def _update(grid: Dict[Tuple[int, int], int]) -> int:
+def update(grid: Dict[Tuple[int, int], int]) -> int:
     flashing = set()
     for coords in grid:
-        _increment(grid, coords, flashing)
+        increment(grid, coords, flashing)
     flash_count = 0
     while len(flashing) > 0:
         coords = flashing.pop()
@@ -31,22 +31,22 @@ def _update(grid: Dict[Tuple[int, int], int]) -> int:
             lambda x: grid.get(x, 0) > 0,
             iter_adjacent_coordinates(coords),
         ):
-            _increment(grid, adj, flashing)
+            increment(grid, adj, flashing)
     return flash_count
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    grid = _parse(puzzle_input)
+    grid = parse_puzzle_input(puzzle_input)
     total_flash = 0
     for _ in range(100):
-        total_flash += _update(grid)
+        total_flash += update(grid)
     return total_flash
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    grid = _parse(puzzle_input)
+    grid = parse_puzzle_input(puzzle_input)
     for i in range(10000):
-        flashes = _update(grid)
+        flashes = update(grid)
         if flashes == len(grid):
             return i + 1
     raise ValueError("reached maximum number of iterations")

@@ -3,7 +3,7 @@ from typing import FrozenSet, Generator, Iterable, List, Tuple
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(
+def parse_puzzle_input(
     puzzle_input: List[str],
 ) -> Generator[
     Tuple[Tuple[FrozenSet[str], ...], Tuple[FrozenSet[str], ...]],
@@ -17,7 +17,7 @@ def _parse(
         yield signals, digits
 
 
-def _count_easy_digits(digits_iterable: Iterable[Tuple[FrozenSet[str], ...]]) -> int:
+def count_easy_digits(digits_iterable: Iterable[Tuple[FrozenSet[str], ...]]) -> int:
     total = 0
     unique_lengths = {2, 3, 4, 7}
     for digits in digits_iterable:
@@ -26,7 +26,7 @@ def _count_easy_digits(digits_iterable: Iterable[Tuple[FrozenSet[str], ...]]) ->
     return total
 
 
-def _decode(
+def decode(
     signals: Tuple[FrozenSet[str], ...],
     digits: Tuple[FrozenSet[str], ...],
 ) -> int:
@@ -65,13 +65,13 @@ def _decode(
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    return _count_easy_digits((d for _, d in _parse(puzzle_input)))
+    return count_easy_digits((d for _, d in parse_puzzle_input(puzzle_input)))
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
     total = 0
-    for signals, digits in _parse(puzzle_input):
-        total += _decode(signals, digits)
+    for signals, digits in parse_puzzle_input(puzzle_input):
+        total += decode(signals, digits)
     return total
 
 

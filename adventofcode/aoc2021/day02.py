@@ -3,13 +3,15 @@ from typing import Generator, Iterable, List, Tuple
 from adventofcode.tools.input import read_puzzle_input
 
 
-def _parse(puzzle_input: List[str]) -> Generator[Tuple[str, int], None, None]:
+def parse_puzzle_input(
+    puzzle_input: List[str],
+) -> Generator[Tuple[str, int], None, None]:
     for row in puzzle_input:
         command, value = row.split()
         yield command, int(value)
 
 
-def _interpret(
+def interpret(
     iterable: Iterable[Tuple[str, int]]
 ) -> Generator[Tuple[int, int], None, None]:
     for cmd in iterable:
@@ -24,7 +26,7 @@ def _interpret(
                 raise ValueError("invalid command")
 
 
-def _compile(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
+def compile(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
     horizontal, depth = 0, 0
     for h, d in iterable:
         horizontal += h
@@ -32,7 +34,7 @@ def _compile(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
     return horizontal, depth
 
 
-def _compile_with_aim(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
+def compile_with_aim(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
     horizontal, depth, aim = 0, 0, 0
     for h, a in iterable:
         horizontal += h
@@ -42,14 +44,14 @@ def _compile_with_aim(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    iterable = _interpret(_parse(puzzle_input))
-    horizontal, depth = _compile(iterable)
+    iterable = interpret(parse_puzzle_input(puzzle_input))
+    horizontal, depth = compile(iterable)
     return horizontal * depth
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    iterable = _interpret(_parse(puzzle_input))
-    horizontal, depth = _compile_with_aim(iterable)
+    iterable = interpret(parse_puzzle_input(puzzle_input))
+    horizontal, depth = compile_with_aim(iterable)
     return horizontal * depth
 
 
