@@ -1,13 +1,13 @@
 from itertools import chain
 from typing import Callable, Dict, Generator, List, Tuple, TypeVar
 
-T = TypeVar("T")
+_T = TypeVar("_T")
 
 
 def gridify(
     puzzle_input: List[str],
-    parse: Callable[[str], T] = str,
-) -> Dict[Tuple[int, int], T]:
+    parse: Callable[[str], _T] = str,
+) -> Dict[Tuple[int, int], _T]:
     grid = {}
     for i, row in enumerate(puzzle_input):
         for j, c in enumerate(row):

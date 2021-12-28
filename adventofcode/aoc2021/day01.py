@@ -2,20 +2,8 @@ import collections
 from itertools import islice, pairwise
 from typing import Any, Generator, Iterable, List, Tuple
 
+from adventofcode.library.iter import iter_sliding_windows
 from adventofcode.tools.input import read_puzzle_input
-
-
-def sliding_window(
-    iterable: Iterable[Any],
-    n: int,
-) -> Generator[Tuple[Any], None, None]:
-    it = iter(iterable)
-    window = collections.deque(islice(it, n), maxlen=n)
-    if len(window) == n:
-        yield tuple(window)
-    for x in it:
-        window.append(x)
-        yield tuple(window)
 
 
 def _parse(puzzle_input: List[str]) -> Generator[int, None, None]:
@@ -32,7 +20,7 @@ def solve_part1(puzzle_input: List[str]) -> int:
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    iterable = (sum(w) for w in sliding_window(_parse(puzzle_input), 3))
+    iterable = (sum(w) for w in iter_sliding_windows(_parse(puzzle_input), 3))
     return _count_positive_diffs(iterable)
 
 

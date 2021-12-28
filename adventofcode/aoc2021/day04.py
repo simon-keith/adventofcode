@@ -1,6 +1,6 @@
-from itertools import islice
 from typing import List, Optional, Tuple
 
+from adventofcode.library.iter import iter_chunks
 from adventofcode.tools.input import read_puzzle_input
 
 
@@ -39,10 +39,7 @@ def _parse(
     random_numbers = tuple(int(n) for n in next(iterator).split(","))
     no_blank = (line for line in iterator if line)
     grid_list = []
-    while True:
-        chunk = list(islice(no_blank, 5))
-        if not chunk:
-            break
+    for chunk in iter_chunks(no_blank, 5):
         grid = tuple(tuple(int(x) for x in row.split()) for row in chunk)
         grid_list.append(_Grid(grid))
     return random_numbers, grid_list
