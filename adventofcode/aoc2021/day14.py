@@ -1,6 +1,10 @@
 from collections import defaultdict
-from itertools import dropwhile, pairwise
-from typing import DefaultDict, Dict, List, Tuple
+from itertools import dropwhile
+from itertools import pairwise
+from typing import DefaultDict
+from typing import Dict
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
@@ -12,13 +16,14 @@ def parse_puzzle_input(
     polymer = next(it)
     rules = {}
     for r in dropwhile(lambda x: len(x) == 0, it):
-        (left, right), insertion = r.split(" -> ")
-        rules[(left + right)] = (left + insertion, insertion + right)
+        pair, insertion = r.split(" -> ")
+        left, right = list(pair)
+        rules[pair] = (left + insertion, insertion + right)
     return polymer, rules
 
 
 def get_polymer_pairs(polymer: str) -> DefaultDict[str, int]:
-    pairs = defaultdict(int)
+    pairs: DefaultDict[str, int] = defaultdict(int)
     for p in pairwise(polymer):
         pairs["".join(p)] += 1
     return pairs
@@ -30,7 +35,7 @@ def grow_polymer_pairs(
     iterations: int,
 ) -> DefaultDict[str, int]:
     for _ in range(iterations):
-        new_pairs = defaultdict(int)
+        new_pairs: DefaultDict[str, int] = defaultdict(int)
         for p, count in pairs.items():
             for new in rules[p]:
                 new_pairs[new] += count
@@ -41,9 +46,10 @@ def grow_polymer_pairs(
 def get_polymer_elements_counter(
     polymer: str,
     pairs: DefaultDict[str, int],
-) -> List[Tuple[str, int]]:
-    counter = defaultdict(int)
-    for (left, _), count in pairs.items():
+) -> Tuple[Tuple[str, int], ...]:
+    counter: DefaultDict[str, int] = defaultdict(int)
+    for pair, count in pairs.items():
+        left, _ = list(pair)
         counter[left] += count
     counter[polymer[-1]] += 1
     return tuple(sorted(counter.items(), key=lambda x: -x[1]))

@@ -1,11 +1,13 @@
 from itertools import pairwise
-from typing import Generator, Iterable, List
+from typing import Iterable
+from typing import Iterator
+from typing import List
 
 from adventofcode.library.iter import iter_sliding_windows
 from adventofcode.tools.input import read_puzzle_input
 
 
-def parse_puzzle_input(puzzle_input: List[str]) -> Generator[int, None, None]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Iterator[int]:
     return (int(line) for line in puzzle_input)
 
 

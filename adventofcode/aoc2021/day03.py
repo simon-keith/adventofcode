@@ -1,12 +1,15 @@
 from functools import reduce
-from typing import Generator, Iterable, List, Tuple
+from typing import Iterable
+from typing import Iterator
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
 
 def parse_puzzle_input(
     puzzle_input: List[str],
-) -> Generator[Iterable[bool], None, None]:
+) -> Iterator[Iterable[bool]]:
     for row in puzzle_input:
         yield (bool(int(c)) for c in row)
 
@@ -23,11 +26,12 @@ def is_most_common(column: Iterable[bool]) -> bool:
     return ratio(column) >= 0.5
 
 
-def bool_array_to_int(x: Iterable[bool]) -> int:
-    return reduce(lambda a, b: (a << 1) | b, x)
+def bool_array_to_int(bool_iter: Iterable[bool]) -> int:
+    int_iter = (int(x) for x in bool_iter)
+    return reduce(lambda a, b: (a << 1) | b, int_iter)
 
 
-def decode_power_consumption(iterable: Iterable[Tuple[bool, ...]]) -> Tuple[int, int]:
+def decode_power_consumption(iterable: Iterable[Iterable[bool]]) -> Tuple[int, int]:
     columns = zip(*iterable)
     column_most_common = tuple(is_most_common(c) for c in columns)
     gamma = bool_array_to_int(column_most_common)
@@ -36,9 +40,9 @@ def decode_power_consumption(iterable: Iterable[Tuple[bool, ...]]) -> Tuple[int,
 
 
 def compress_grid(
-    grid: Tuple[Tuple[int, ...], ...],
+    grid: Tuple[Tuple[bool, ...], ...],
     most_common: bool,
-) -> Tuple[int, ...]:
+) -> Tuple[bool, ...]:
     if len(grid) == 0:
         raise ValueError("empty grid")
     column_count = len(grid[0])
@@ -51,7 +55,7 @@ def compress_grid(
     raise ValueError("could not compress grid")
 
 
-def decode_life_support(iterable: Iterable[Tuple[bool, ...]]) -> Tuple[int, int]:
+def decode_life_support(iterable: Iterable[Iterable[bool]]) -> Tuple[int, int]:
     grid = tuple(tuple(r for r in row) for row in iterable)
     o2 = bool_array_to_int(compress_grid(grid, True))
     co2 = bool_array_to_int(compress_grid(grid, False))

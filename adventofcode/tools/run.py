@@ -2,10 +2,14 @@ import importlib
 from functools import partial
 from timeit import Timer
 from types import ModuleType
-from typing import Any, List, Tuple
+from typing import Any
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
-from adventofcode.tools.skeleton import PACKAGE, format_module, format_solution
+from adventofcode.tools.skeleton import PACKAGE
+from adventofcode.tools.skeleton import format_module
+from adventofcode.tools.skeleton import format_solution
 
 
 def _get_module(year: int, day: int) -> ModuleType:
@@ -32,4 +36,5 @@ def timeit(year: int, day: int) -> Tuple[float, float]:
     module, puzzle_input = _init(year, day)
     p1 = partial(module.solve_part1, puzzle_input)
     p2 = partial(module.solve_part2, puzzle_input)
-    return tuple(t[1] / t[0] for t in (Timer(p).autorange() for p in (p1, p2)))
+    t1, t2 = (t[1] / t[0] for t in (Timer(p).autorange() for p in (p1, p2)))
+    return t1, t2

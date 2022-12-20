@@ -1,6 +1,8 @@
 import math
-from statistics import mean, median_high
-from typing import List, Tuple
+from statistics import mean
+from statistics import median_high
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 

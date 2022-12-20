@@ -41,6 +41,13 @@ def test_part2(puzzle_input):
 """
 
 
+def _find_module_origin(name: str) -> str:
+    spec = find_spec(name)
+    if spec is None or spec.origin is None:
+        raise ValueError(f"could not find origin for module '{name}'")
+    return spec.origin
+
+
 def format_module(year: int) -> str:
     return f"aoc{year:d}"
 
@@ -68,15 +75,15 @@ def write_files(year: int, day: int) -> Tuple[Path, Path]:
 
     # get solution path
     solution_module_name = f"{PACKAGE}.{module}"
-    solution_module_spec = find_spec(solution_module_name)
-    solution_module_path = Path(solution_module_spec.origin).parent
+    solution_module_origin = _find_module_origin(solution_module_name)
+    solution_module_path = Path(solution_module_origin).parent
     solution = format_solution(day)
     solution_path = solution_module_path / f"{solution}.py"
 
     # get test path
     test_module_name = f"tests.{module}"
-    test_module_spec = find_spec(test_module_name)
-    test_module_path = Path(test_module_spec.origin).parent
+    solution_module_origin = _find_module_origin(test_module_name)
+    test_module_path = Path(solution_module_origin).parent
     test = format_test(day)
     test_path = test_module_path / f"{test}.py"
 

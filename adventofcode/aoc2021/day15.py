@@ -1,8 +1,11 @@
 import heapq
 from itertools import product
-from typing import Dict, List, Tuple
+from typing import Dict
+from typing import List
+from typing import Tuple
 
-from adventofcode.library.grid import gridify, iter_adjacent_coordinates
+from adventofcode.library.grid import gridify
+from adventofcode.library.grid import iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
@@ -14,7 +17,7 @@ def minimize_risk(
     grid: Dict[Tuple[int, int], int],
     start: Tuple[int, int],
     target: Tuple[int, int],
-) -> Dict[Tuple[int, int], Tuple[Tuple[int, int], int]]:
+) -> int:
     risks = {start: 0}
     priority_queue = [(0, start)]
     while len(priority_queue) > 0:

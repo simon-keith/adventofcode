@@ -1,5 +1,7 @@
-from adventofcode.aoc2021.day06 import solve_part1, solve_part2
 from pytest import fixture
+
+from adventofcode.aoc2021.day06 import solve_part1
+from adventofcode.aoc2021.day06 import solve_part2
 
 
 @fixture
