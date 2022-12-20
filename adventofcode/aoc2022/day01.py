@@ -1,12 +1,12 @@
 from itertools import takewhile
-from typing import Iterable
+from typing import Iterator
 from typing import List
 from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
 
-def parse_puzzle_input(puzzle_input: List[str]) -> Iterable[Tuple[int, ...]]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Iterator[Tuple[int, ...]]:
     puzzle_iter = iter(puzzle_input)
     while True:
         carrying = tuple(int(x) for x in takewhile(len, puzzle_iter))

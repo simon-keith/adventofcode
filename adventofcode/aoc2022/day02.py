@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import Dict
-from typing import Iterable
+from typing import Iterator
 from typing import List
 from typing import Tuple
 
@@ -42,7 +42,7 @@ _reverse_matchup = {
 }
 
 
-def parse_puzzle_input(puzzle_input: List[str]) -> Iterable[Tuple[str, str]]:
+def parse_puzzle_input(puzzle_input: List[str]) -> Iterator[Tuple[str, str]]:
     for rnd in puzzle_input:
         left, right = rnd.split()
         yield left, right
