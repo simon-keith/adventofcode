@@ -1,6 +1,10 @@
 from collections import deque
 from itertools import takewhile
-from typing import Generator, Iterable, List, Set, Tuple
+from typing import Iterable
+from typing import Iterator
+from typing import List
+from typing import Set
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
@@ -14,9 +18,10 @@ def parse_puzzle_input(
     dots = set(
         (int(i), int(j)) for j, i in (c.split(",") for c in takewhile(len, iterator))
     )
+    fold_along = "fold along "
     instructions = tuple(
         (DIM_TO_INDEX[dim], int(pos))
-        for dim, pos in (f.strip("fold along ").split("=") for f in iterator)
+        for dim, pos in (f.lstrip(fold_along).split("=") for f in iterator)
     )
     return dots, instructions
 
@@ -24,7 +29,7 @@ def parse_puzzle_input(
 def fold(
     dots: Set[Tuple[int, int]],
     instructions: Iterable[Tuple[int, int]],
-) -> Generator[None, None, None]:
+) -> Iterator[None]:
     for idx, pos in instructions:
         for coords in tuple(dots):
             if coords[idx] >= pos:
@@ -32,7 +37,8 @@ def fold(
                 if coords[idx] > pos:
                     new_coords = list(coords)
                     new_coords[idx] = coords[idx] - (coords[idx] - pos) * 2
-                    dots.add(tuple(new_coords))
+                    x, y = new_coords
+                    dots.add((x, y))
         yield
 
 

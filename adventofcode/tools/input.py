@@ -1,7 +1,10 @@
 from importlib import resources
-from typing import Generator, List, Tuple
+from typing import List
+from typing import Tuple
 
-from adventofcode.tools.skeleton import PACKAGE, format_module, format_solution
+from adventofcode.tools.skeleton import PACKAGE
+from adventofcode.tools.skeleton import format_module
+from adventofcode.tools.skeleton import format_solution
 
 
 def _get_package_and_resource(year: int, day: int) -> Tuple[str, str]:

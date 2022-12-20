@@ -3,7 +3,10 @@ import collections.abc
 import math
 from dataclasses import dataclass
 from itertools import islice
-from typing import Iterable, List, Optional, Tuple
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
@@ -40,6 +43,8 @@ class Packet:
             case 3:
                 return max(p.get_value() for p in self.sub_packets)
             case 4:
+                if self.literal is None:
+                    raise ValueError("literal value is not defined")
                 return self.literal
             case 5:
                 s1, s2 = self.sub_packets
@@ -90,7 +95,8 @@ class Transmission(collections.abc.Sized, collections.abc.Iterator):
         header = tuple(self._fetch(3) for _ in range(2))
         if not all(len(h) == 3 for h in header):
             raise ValueError("header is incomplete")
-        return tuple(int(h, 2) for h in header)
+        version, type_id = tuple(int(h, 2) for h in header)
+        return version, type_id
 
     def decode(self) -> Packet:
         version, type_id = self._get_next_header()

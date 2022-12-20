@@ -1,5 +1,7 @@
 from collections import deque
-from typing import Deque, List, Tuple
+from typing import Deque
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 

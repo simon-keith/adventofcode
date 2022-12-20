@@ -1,8 +1,12 @@
 import math
 from collections import deque
-from typing import Dict, Generator, List, Tuple
+from typing import Dict
+from typing import Iterator
+from typing import List
+from typing import Tuple
 
-from adventofcode.library.grid import gridify, iter_adjacent_coordinates
+from adventofcode.library.grid import gridify
+from adventofcode.library.grid import iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
@@ -22,7 +26,7 @@ def is_lower_than_adjacent(
     return height, all(height < a for a in adjacent)
 
 
-def find_minima(grid: Dict[Tuple[int, int], int]) -> Generator[int, None, None]:
+def find_minima(grid: Dict[Tuple[int, int], int]) -> Iterator[int]:
     for coords in grid:
         height, lower = is_lower_than_adjacent(grid, coords)
         if lower:
@@ -44,9 +48,9 @@ def find_basin_sizes(grid: Dict[Tuple[int, int], int]) -> List[int]:
                 if coords not in visited:
                     visited.add(coords)
                     size += 1
-                    for coords in iter_adjacent_coordinates(coords, False):
-                        if grid.get(coords, 9) != 9:
-                            fifo.append(coords)
+                    for adj_coords in iter_adjacent_coordinates(coords, False):
+                        if grid.get(adj_coords, 9) != 9:
+                            fifo.append(adj_coords)
             basin_sizes.append(size)
     return basin_sizes
 

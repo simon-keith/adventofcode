@@ -1,32 +1,33 @@
-from typing import Generator, Iterable, List, Tuple
+from typing import Iterable
+from typing import Iterator
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
 
 def parse_puzzle_input(
     puzzle_input: List[str],
-) -> Generator[Tuple[str, int], None, None]:
+) -> Iterator[Tuple[str, int]]:
     for row in puzzle_input:
         command, value = row.split()
         yield command, int(value)
 
 
-def interpret(
-    iterable: Iterable[Tuple[str, int]]
-) -> Generator[Tuple[int, int], None, None]:
+def interpret(iterable: Iterable[Tuple[str, int]]) -> Iterator[Tuple[int, int]]:
     for cmd in iterable:
         match cmd:
             case ("forward", x):
-                yield (x, 0)
+                yield x, 0
             case ("down", x):
-                yield (0, x)
+                yield 0, x
             case ("up", x):
-                yield (0, -x)
+                yield 0, -x
             case _:
                 raise ValueError("invalid command")
 
 
-def compile(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
+def compile_data(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
     horizontal, depth = 0, 0
     for h, d in iterable:
         horizontal += h
@@ -45,7 +46,7 @@ def compile_with_aim(iterable: Iterable[Tuple[int, int]]) -> Tuple[int, int]:
 
 def solve_part1(puzzle_input: List[str]) -> int:
     iterable = interpret(parse_puzzle_input(puzzle_input))
-    horizontal, depth = compile(iterable)
+    horizontal, depth = compile_data(iterable)
     return horizontal * depth
 
 

@@ -1,6 +1,9 @@
 from collections import deque
 from statistics import median_high
-from typing import Deque, Generator, List, Optional
+from typing import Deque
+from typing import Iterator
+from typing import List
+from typing import Optional
 
 from adventofcode.tools.input import read_puzzle_input
 
@@ -17,7 +20,7 @@ class CorruptedLineError(ValueError):
 
 
 def check(line: str) -> Deque[str]:
-    stack = deque()
+    stack: Deque[str] = deque()
     for symbol in line:
         try:
             expected_opening_symbol = OPENING_MAP[symbol]
@@ -31,7 +34,7 @@ def check(line: str) -> Deque[str]:
     return stack
 
 
-def complete(stack: Deque[str]) -> Generator[str, None, None]:
+def complete(stack: Deque[str]) -> Iterator[str]:
     while len(stack) > 0:
         opening_symbol = stack.pop()
         closing_symbol = CLOSING_MAP[opening_symbol]
@@ -42,7 +45,7 @@ def score_autocomplete(line: str) -> Optional[int]:
     try:
         stack = check(line)
     except CorruptedLineError:
-        return
+        return None
     score = 0
     for closing_symbol in complete(stack):
         score *= 5
@@ -61,13 +64,8 @@ def solve_part1(puzzle_input: List[str]) -> int:
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    scores = list(
-        filter(
-            lambda x: x is not None,
-            list(score_autocomplete(line) for line in puzzle_input),
-        )
-    )
-    return median_high(scores)
+    scores = list(score_autocomplete(line) for line in puzzle_input)
+    return median_high(s for s in scores if s is not None)
 
 
 if __name__ == "__main__":

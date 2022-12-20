@@ -1,19 +1,19 @@
-from typing import FrozenSet, Generator, Iterable, List, Tuple
+from typing import FrozenSet
+from typing import Iterable
+from typing import Iterator
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
 
 def parse_puzzle_input(
     puzzle_input: List[str],
-) -> Generator[
-    Tuple[Tuple[FrozenSet[str], ...], Tuple[FrozenSet[str], ...]],
-    None,
-    None,
-]:
+) -> Iterator[Tuple[Tuple[FrozenSet[str], ...], Tuple[FrozenSet[str], ...]]]:
     for line in puzzle_input:
-        signals, digits = line.split("|")
-        signals = tuple(frozenset(s) for s in signals.split())
-        digits = tuple(frozenset(s) for s in digits.split())
+        signals_raw, digits_raw = line.split("|")
+        signals = tuple(frozenset(s) for s in signals_raw.split())
+        digits = tuple(frozenset(s) for s in digits_raw.split())
         yield signals, digits
 
 

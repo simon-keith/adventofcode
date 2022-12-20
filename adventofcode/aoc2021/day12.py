@@ -1,5 +1,8 @@
 from collections import defaultdict
-from typing import Dict, List, Set
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Set
 
 from adventofcode.tools.input import read_puzzle_input
 
@@ -18,10 +21,12 @@ def count_paths(
     extra: bool = False,
     *,
     cave: str = "start",
-    visited: Set[str] = {"start"},
+    visited: Optional[Set[str]] = None,
 ) -> int:
     if cave == "end":
         return 1
+    if visited is None:
+        visited = {cave}
     paths = 0
     for adj in network[cave]:
         if adj not in visited:

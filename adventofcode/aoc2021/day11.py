@@ -1,6 +1,10 @@
-from typing import Dict, List, Set, Tuple
+from typing import Dict
+from typing import List
+from typing import Set
+from typing import Tuple
 
-from adventofcode.library.grid import gridify, iter_adjacent_coordinates
+from adventofcode.library.grid import gridify
+from adventofcode.library.grid import iter_adjacent_coordinates
 from adventofcode.tools.input import read_puzzle_input
 
 
@@ -11,7 +15,7 @@ def parse_puzzle_input(puzzle_input: List[str]) -> Dict[Tuple[int, int], int]:
 def increment(
     grid: Dict[Tuple[int, int], int],
     coords: Tuple[int, int],
-    flashing: Set[int],
+    flashing: Set[Tuple[int, int]],
 ):
     grid[coords] += 1
     if grid[coords] > 9:
@@ -19,7 +23,7 @@ def increment(
 
 
 def update(grid: Dict[Tuple[int, int], int]) -> int:
-    flashing = set()
+    flashing: Set[Tuple[int, int]] = set()
     for coords in grid:
         increment(grid, coords, flashing)
     flash_count = 0

@@ -1,12 +1,17 @@
 from itertools import chain
-from typing import Callable, Dict, Generator, List, Tuple, TypeVar
+from typing import Callable
+from typing import Dict
+from typing import Iterator
+from typing import List
+from typing import Tuple
+from typing import TypeVar
 
 _T = TypeVar("_T")
 
 
 def gridify(
     puzzle_input: List[str],
-    parse: Callable[[str], _T] = str,
+    parse: Callable[[str], _T],
 ) -> Dict[Tuple[int, int], _T]:
     grid = {}
     for i, row in enumerate(puzzle_input):
@@ -32,9 +37,9 @@ _ADJ_DIAG = (
 def iter_adjacent_coordinates(
     coordinates: Tuple[int, int],
     diagonal: bool = True,
-) -> Generator[Tuple[int, int], None, None]:
+) -> Iterator[Tuple[int, int]]:
     if diagonal:
         offsets = chain(_ADJ_ORTH, _ADJ_DIAG)
     else:
-        offsets = _ADJ_ORTH
+        offsets = chain(_ADJ_ORTH)
     return ((coordinates[0] + o[0], coordinates[1] + o[1]) for o in offsets)

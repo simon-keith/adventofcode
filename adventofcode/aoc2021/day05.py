@@ -1,13 +1,17 @@
 from collections import defaultdict
 from itertools import chain
-from typing import Generator, List, Tuple
+from typing import Dict
+from typing import Iterable
+from typing import Iterator
+from typing import List
+from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
 
 def parse_puzzle_input(
     puzzle_input: List[str],
-) -> Generator[Tuple[int, int, int, int], None, None]:
+) -> Iterator[Iterable[int]]:
     return (
         chain.from_iterable(((int(c) for c in p.split(",")) for p in row.split(" -> ")))
         for row in puzzle_input
@@ -21,9 +25,9 @@ def sign(a: int, b: int) -> int:
 
 
 def iter_coords(
-    segment: Tuple[int, int, int, int],
+    segment: Iterable[int],
     allow_diag: bool,
-) -> Generator[Tuple[int, int], None, None]:
+) -> Iterator[Tuple[int, int]]:
     x1, y1, x2, y2 = segment
     dx = sign(x1, x2)
     dy = sign(y1, y2)
@@ -36,7 +40,7 @@ def iter_coords(
 
 
 def solve(puzzle_input: List[str], allow_diag: bool) -> int:
-    coords_counter = defaultdict(int)
+    coords_counter: Dict[Tuple[int, int], int] = defaultdict(int)
     for segment in parse_puzzle_input(puzzle_input):
         for coords in iter_coords(segment, allow_diag):
             coords_counter[coords] += 1

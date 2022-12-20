@@ -1,4 +1,6 @@
-from typing import List, Optional, Tuple
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from adventofcode.library.iter import iter_chunks
 from adventofcode.tools.input import read_puzzle_input
@@ -8,7 +10,7 @@ class Grid:
     def __init__(self, grid: Tuple[Tuple[int, ...], ...]) -> None:
         self.grid = grid
         self.mask = [[False] * 5 for _ in range(5)]
-        self.last_drawn = None
+        self.last_drawn: Optional[int] = None
 
     def update(self, drawn: int):
         for i in range(5):
@@ -23,7 +25,7 @@ class Grid:
 
     def score(self) -> Optional[int]:
         if not self.last_drawn:
-            return
+            return None
         unmarked_sum = 0
         for i in range(5):
             for j in range(5):
@@ -54,6 +56,7 @@ def score_first_winning(
             grid.update(drawn)
             if grid.check():
                 return grid.score()
+    return None
 
 
 def score_last_winning(
@@ -69,6 +72,7 @@ def score_last_winning(
                 if len(grid_map) == 1:
                     return grid.score()
                 del grid_map[i]
+    return None
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
