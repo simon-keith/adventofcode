@@ -1,67 +1,57 @@
+import re
+from itertools import pairwise
 from typing import Iterator
 from typing import List
 from typing import Set
-from typing import Tuple
 
 from adventofcode.tools.input import read_puzzle_input
 
+_PATTERN = re.compile(r"([DRUL]) (\d+)")
+_MOTIONS = {"D": -1j, "R": 1 + 0j, "U": 1j, "L": -1 + 0j}
 
-def parse_puzzle_input(puzzle_input: List[str]) -> Iterator[Tuple[int, int]]:
+
+def parse_puzzle_input(puzzle_input: List[str]) -> Iterator[complex]:
     for row in puzzle_input:
-        match row.split():
-            case "D", x:
-                yield from ((1, 0) for _ in range(int(x)))
-            case "R", x:
-                yield from ((0, 1) for _ in range(int(x)))
-            case "U", x:
-                yield from ((-1, 0) for _ in range(int(x)))
-            case "L", x:
-                yield from ((0, -1) for _ in range(int(x)))
+        if (mtch := _PATTERN.match(row)) is None:
+            raise ValueError("invalid motion")
+        name, length = mtch.groups()
+        motion = _MOTIONS[name]
+        yield from (motion for _ in range(int(length)))
 
 
-def sign_or_zero(x: int) -> int:
-    return 1 if x > 0 else (-1 if x < 0 else 0)
+def sign(x: complex) -> complex:
+    return complex((x.real > 0) - (x.real < 0), (x.imag > 0) - (x.imag < 0))
 
 
-def move_one_step(tail: Tuple[int, int], head: Tuple[int, int]) -> Tuple[int, int]:
-    tail_i, tail_j = tail
-    head_i, head_j = head
-    return (
-        tail_i + sign_or_zero(head_i - tail_i),
-        tail_j + sign_or_zero(head_j - tail_j),
-    )
+def move_tail_towards_head(tail: complex, head: complex) -> complex:
+    return tail + sign(head - tail)
 
 
-def is_touching(tail: Tuple[int, int], head: Tuple[int, int]) -> bool:
-    tail_i, tail_j = tail
-    head_i, head_j = head
-    return abs(head_i - tail_i) <= 1 and abs(head_j - tail_j) <= 1
+def is_touching(tail: complex, head: complex) -> bool:
+    return abs(head - tail) < 2
 
 
 def solve_part1(puzzle_input: List[str]) -> int:
-    tail_i, tail_j, head_i, head_j = 0, 0, 0, 0
-    visited: Set[Tuple[int, int]] = {(tail_i, tail_j)}
-    for delta_i, delta_j in parse_puzzle_input(puzzle_input):
-        head_i, head_j = head_i + delta_i, head_j + delta_j
-        while not is_touching((tail_i, tail_j), (head_i, head_j)):
-            tail_i, tail_j = move_one_step((tail_i, tail_j), (head_i, head_j))
-            visited.add((tail_i, tail_j))
+    tail, head = 0j, 0j
+    visited: Set[complex] = {tail}
+    for motion in parse_puzzle_input(puzzle_input):
+        head += motion
+        while not is_touching(tail, head):
+            tail = move_tail_towards_head(tail, head)
+            visited.add(tail)
     return len(visited)
 
 
 def solve_part2(puzzle_input: List[str]) -> int:
-    head_i, head_j, rope_len = 0, 0, 9
-    tail_list: List[Tuple[int, int]] = [(0, 0) for _ in range(rope_len)]
-    visited: Set[Tuple[int, int]] = {tail_list[-1]}
-    for delta_i, delta_j in parse_puzzle_input(puzzle_input):
-        next_i, next_j = head_i, head_j = head_i + delta_i, head_j + delta_j
-        for i in range(len(tail_list)):
-            tail_i, tail_j = tail_list[i]
-            while not is_touching((tail_i, tail_j), (next_i, next_j)):
-                tail_i, tail_j = move_one_step((tail_i, tail_j), (next_i, next_j))
-                if i == rope_len - 1:
-                    visited.add((tail_i, tail_j))
-            tail_list[i] = next_i, next_j = tail_i, tail_j
+    rope = [0j] * 10
+    visited: Set[complex] = {rope[-1]}
+    for motion in parse_puzzle_input(puzzle_input):
+        rope[0] += motion
+        for head, tail in pairwise(range(len(rope))):
+            while not is_touching(rope[head], rope[tail]):
+                rope[tail] = move_tail_towards_head(rope[tail], rope[head])
+                if tail == len(rope) - 1:
+                    visited.add(rope[tail])
     return len(visited)
 
 
