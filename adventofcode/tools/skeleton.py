@@ -9,11 +9,15 @@ _SOLUTION = """from typing import List
 from adventofcode.tools.input import read_puzzle_input
 
 
-def solve_part1(puzzle_input: List[str]) -> int:
+def parse_puzzle_input(puzzle_input: List[str]):
     pass
 
 
-def solve_part2(puzzle_input: List[str]) -> int:
+def solve_part1(puzzle_input: List[str]):
+    pass
+
+
+def solve_part2(puzzle_input: List[str]):
     pass
 
 
