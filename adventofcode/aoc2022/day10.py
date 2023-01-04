@@ -38,7 +38,7 @@ def solve_part2(puzzle_input: List[str]) -> str:
     width, height = 40, len(register_value_list) // 40
     crt = [["."] * width for _ in range(height)]
     for idx, register in enumerate(register_value_list):
-        i, j = idx // width, idx % width
+        i, j = divmod(idx, width)
         if j - 1 <= register <= j + 1:
             crt[i][j] = "#"
     return "\n".join("".join(row) for row in crt)
