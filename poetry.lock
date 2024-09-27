@@ -298,17 +298,6 @@ files = [
 toml = ["tomli"]
 
 [[package]]
-name = "darglint"
-version = "1.8.1"
-description = "A utility for ensuring Google-style docstrings stay up to date with the source code."
-optional = false
-python-versions = ">=3.6,<4.0"
-files = [
-    {file = "darglint-1.8.1-py3-none-any.whl", hash = "sha256:5ae11c259c17b0701618a20c3da343a3eb98b3bc4b5a83d31cdd94f5ebdced8d"},
-    {file = "darglint-1.8.1.tar.gz", hash = "sha256:080d5106df149b199822e7ee7deb9c012b49891538f14a11be681044f0bb20da"},
-]
-
-[[package]]
 name = "debugpy"
 version = "1.8.6"
 description = "An implementation of the Debug Adapter Protocol for Python"
@@ -414,21 +403,6 @@ flake8 = "*"
 
 [package.extras]
 test = ["pytest"]
-
-[[package]]
-name = "flake8-docstrings"
-version = "1.7.0"
-description = "Extension for flake8 which uses pydocstyle to check docstrings"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "flake8_docstrings-1.7.0-py2.py3-none-any.whl", hash = "sha256:51f2344026da083fc084166a9353f5082b01f72901df422f74b4d953ae88ac75"},
-    {file = "flake8_docstrings-1.7.0.tar.gz", hash = "sha256:4c8cc748dc16e6869728699e5d0d685da9a10b0ea718e090b1ba088e67a941af"},
-]
-
-[package.dependencies]
-flake8 = ">=3"
-pydocstyle = ">=2.1"
 
 [[package]]
 name = "iniconfig"
@@ -865,23 +839,6 @@ files = [
 ]
 
 [[package]]
-name = "pydocstyle"
-version = "6.3.0"
-description = "Python docstring style checker"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "pydocstyle-6.3.0-py3-none-any.whl", hash = "sha256:118762d452a49d6b05e194ef344a55822987a462831ade91ec5c06fd2169d019"},
-    {file = "pydocstyle-6.3.0.tar.gz", hash = "sha256:7ce43f0c0ac87b07494eb9c0b462c0b73e6ff276807f204d6b53edc72b7e44e1"},
-]
-
-[package.dependencies]
-snowballstemmer = ">=2.2.0"
-
-[package.extras]
-toml = ["tomli (>=1.2.3)"]
-
-[[package]]
 name = "pyflakes"
 version = "3.1.0"
 description = "passive checker of Python programs"
@@ -1114,17 +1071,6 @@ files = [
 ]
 
 [[package]]
-name = "snowballstemmer"
-version = "2.2.0"
-description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
-optional = false
-python-versions = "*"
-files = [
-    {file = "snowballstemmer-2.2.0-py2.py3-none-any.whl", hash = "sha256:c8e1716e83cc398ae16824e5572ae04e0d9fc2c6b985fb0f900f5f0c96ecba1a"},
-    {file = "snowballstemmer-2.2.0.tar.gz", hash = "sha256:09b16deb8547d3412ad7b590689584cd0fe25ec8db3be37788be3810cbf19cb1"},
-]
-
-[[package]]
 name = "stack-data"
 version = "0.6.3"
 description = "Extract data from python stack frames and tracebacks for informative displays"
@@ -1203,4 +1149,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "a6b91026759034351df60a92569ddb88b1c1553ee057f5ff372020b4a339bd28"
+content-hash = "a57c5c1766a07199b26fb6856d1a569e157bf7a8dbc8ced736c2f2245afabeb7"
