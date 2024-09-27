@@ -44,7 +44,7 @@ line-length = 88
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-addopts = "--cov=adventofcode"
+# addopts = "--cov=adventofcode"
 testpaths = ["tests"]
 
 [tool.coverage.report]
