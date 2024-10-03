@@ -41,7 +41,7 @@ def _parse_draw(draw: str) -> Draw:
         for m in (
             _DRAW_PATTERN.match(color_count.strip()) for color_count in draw.split(",")
         )
-        if m is not None
+        if m
     }
     return Draw(
         red=draw_map.get("red", 0),

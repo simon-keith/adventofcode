@@ -41,7 +41,7 @@ def _iter_gear_ratios(
             match_dict.get((i, j))
             for i, j in iter_adjacent(row_index, gear_match.start(), gear_match.end())
         )
-        if m is not None
+        if m
     }
     return (
         math.prod(int(m.group()) for m in unique_matches.values())
